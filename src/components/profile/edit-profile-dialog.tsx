@@ -39,6 +39,7 @@ export function EditProfileDialog({ initialData }: EditProfileDialogProps) {
         </DialogHeader>
         <div className="py-4">
           <MemberRegistrationForm 
+            mode="update"
             initialData={initialData} 
             onSuccess={() => {setOpen(false); router.refresh();}} 
           />

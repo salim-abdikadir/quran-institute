@@ -50,172 +50,96 @@ export default async function ProfilePage() {
   );
 
   return (
-    <div className="min-h-screen bg-muted/30 pb-24 md:pb-12">
-      {/* Sticky Top Header - Desktop Only Hidden on Mobile */}
-      <header className="bg-background/80 backdrop-blur-md border-b sticky top-0 z-30 hidden md:block">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            Jimciyat Alquran
-          </Link>
-          <div className="flex items-center gap-4">
-            <ModeToggle />
-            <Button variant="ghost" asChild>
-              <Link href="/events">Events</Link>
-            </Button>
-            <form>
-              <Button 
-                variant="ghost" 
-                size="sm"
-                className="text-destructive hover:text-destructive hover:bg-destructive/10 rounded-full"
-                formAction={async () => {
-                  "use server";
-                  await auth.api.signOut({
-                    headers: await headers(),
-                  });
-                  redirect("/");
-                }}
-              >
-                <LogOutIcon size={16} className="mr-2" />
-                Sign Out
-              </Button>
-            </form>
+    <div className="container mx-auto px-4 md:py-8 lg:px-0">
+      <div className="max-w-xl mx-auto space-y-8 pt-8 md:pt-0">
+        
+        {/* Mobile Header Title - Simplified since layout has header */}
+        <div className="md:hidden pb-4">
+          <h1 className="text-2xl font-black tracking-tight">Account</h1>
+        </div>
+
+        {/* Hero Profile Section */}
+        <div className="flex flex-col items-center md:flex-row md:items-center gap-6 px-4 md:px-0 text-center md:text-left">
+          <div className="relative group">
+            <div className="h-24 w-24 md:h-20 md:w-20 rounded-3xl bg-primary/10 flex items-center justify-center text-primary shadow-inner border border-primary/20 rotate-3 group-hover:rotate-0 transition-transform duration-300">
+              <UserIcon size={40} className="-rotate-3 group-hover:rotate-0 transition-transform duration-300" />
+            </div>
+            <div className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-green-500 border-2 border-background" />
           </div>
-        </div>
-      </header>
-
-      {/* Mobile Header Title */}
-      <div className="md:hidden pt-8 pb-4 px-6 flex items-center justify-between">
-        <h1 className="text-2xl font-black tracking-tight">Account</h1>
-        <div className="flex items-center gap-2">
-          <ModeToggle />
-          <form>
-            <Button 
-              variant="ghost" 
-              size="icon"
-              className="text-destructive rounded-full"
-              formAction={async () => {
-                "use server";
-                await auth.api.signOut({
-                  headers: await headers(),
-                });
-                redirect("/");
-              }}
-            >
-              <LogOutIcon size={18} />
-            </Button>
-          </form>
-        </div>
-      </div>
-
-      <main className="container mx-auto px-4 md:py-8 lg:px-0">
-        <div className="max-w-xl mx-auto space-y-8">
           
-          {/* Hero Profile Section */}
-          <div className="flex flex-col items-center md:flex-row md:items-center gap-6 px-4 md:px-0 text-center md:text-left">
-            <div className="relative group">
-              <div className="h-24 w-24 md:h-20 md:w-20 rounded-3xl bg-primary/10 flex items-center justify-center text-primary shadow-inner border border-primary/20 rotate-3 group-hover:rotate-0 transition-transform duration-300">
-                <UserIcon size={40} className="-rotate-3 group-hover:rotate-0 transition-transform duration-300" />
-              </div>
-              <div className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-green-500 border-2 border-background" />
-            </div>
-            
-            <div className="flex-1 space-y-1">
-              <h2 className="text-2xl font-bold tracking-tight">
-                {profile?.fullName ?? session.user.name}
-              </h2>
-              <p className="text-muted-foreground text-sm font-medium">{session.user.email}</p>
-              {profile && (
-                <div className="flex flex-wrap justify-center md:justify-start gap-2 pt-1">
-                  <Badge variant="secondary" className="bg-primary/5 text-primary border-primary/10 rounded-full px-3 py-0.5 text-[10px]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary mr-1.5 animate-pulse" />
-                    Active Member
-                  </Badge>
-                </div>
-              )}
-            </div>
-
+          <div className="flex-1 space-y-1">
+            <h2 className="text-2xl font-bold tracking-tight">
+              {profile?.fullName ?? session.user.name}
+            </h2>
+            <p className="text-muted-foreground text-sm font-medium">{session.user.email}</p>
             {profile && (
-              <div className="md:ml-auto w-full md:w-auto pt-2 md:pt-0 px-8 md:px-0">
-                <EditProfileDialog initialData={{
-                  fullName: profile.fullName,
-                  address: profile.address,
-                  phoneNumber: profile.phoneNumber,
-                  ageGroup: profile.ageGroup,
-                  educationLevel: profile.educationLevel,
-                  employmentStatus: profile.employmentStatus,
-                  employmentTitle: profile.employmentTitle ?? "",
-                }} />
+              <div className="flex flex-wrap justify-center md:justify-start gap-2 pt-1">
+                <Badge variant="secondary" className="bg-primary/5 text-primary border-primary/10 rounded-full px-3 py-0.5 text-[10px]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary mr-1.5 animate-pulse" />
+                  Active Member
+                </Badge>
               </div>
             )}
           </div>
 
-          {!profile ? (
-            <Card className="border-none bg-gradient-to-br from-primary/10 to-accent/10 shadow-none rounded-[2rem] p-4">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-xl font-bold text-primary">Incomplete Profile</CardTitle>
-                <CardDescription className="text-sm font-medium">
-                  Join our community of {stats.memberCount > 0 ? stats.memberCount : "many"} members to access exclusive events.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button asChild className="w-full rounded-2xl h-12 text-sm font-bold shadow-lg shadow-primary/20 bg-primary hover:bg-primary/90 text-primary-foreground">
-                  <Link href="/register">Register Now</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="space-y-6 px-2 md:px-0">
-              {/* Profile Sections as app-like lists */}
-              <div className="space-y-3">
-                <h3 className="px-2 text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Personal Details</h3>
-                <div className="bg-card border border-border/50 rounded-[2rem] p-6 shadow-sm">
-                  <InfoItem icon={UserIcon} label="Full Name" value={profile.fullName} />
-                  <InfoItem icon={MapPinIcon} label="Address" value={profile.address} />
-                  <InfoItem icon={PhoneIcon} label="Phone Number" value={profile.phoneNumber} />
-                  <InfoItem icon={CalendarIcon} label="Age Group" value={<Badge variant="outline" className="text-[10px] rounded-full">{profile.ageGroup} years</Badge>} />
-                </div>
-              </div>
-
-              <div className="space-y-3 pb-8">
-                <h3 className="px-2 text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Education & Work</h3>
-                <div className="bg-card border border-border/50 rounded-[2rem] p-6 shadow-sm">
-                  <InfoItem icon={GraduationCapIcon} label="Education Level" value={profile.educationLevel} />
-                  <InfoItem icon={BriefcaseIcon} label="Current Status" value={profile.employmentStatus} />
-                  {profile.employmentTitle && (
-                    <InfoItem icon={BriefcaseIcon} label="Job Title" value={profile.employmentTitle} />
-                  )}
-                  <div className="pt-4 flex items-center justify-center gap-2 text-[10px] font-bold text-muted-foreground/50 uppercase tracking-tighter">
-                    Since {new Date(profile.createdAt).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
-                  </div>
-                </div>
-              </div>
+          {profile && (
+            <div className="md:ml-auto w-full md:w-auto pt-2 md:pt-0 px-8 md:px-0">
+              <EditProfileDialog initialData={{
+                fullName: profile.fullName,
+                address: profile.address,
+                phoneNumber: profile.phoneNumber,
+                ageGroup: profile.ageGroup,
+                educationLevel: profile.educationLevel,
+                employmentStatus: profile.employmentStatus,
+                employmentTitle: profile.employmentTitle ?? "",
+              }} />
             </div>
           )}
         </div>
-      </main>
 
-      {/* Mobile Bottom Navigation Bar */}
-      <nav className="md:hidden fixed bottom-6 left-6 right-6 h-16 bg-background/90 backdrop-blur-xl border border-white/20 shadow-2xl rounded-full z-50 flex items-center justify-around px-2">
-        <Link href="/" className="flex flex-col items-center justify-center w-12 h-12 rounded-full text-muted-foreground hover:text-primary transition-colors">
-          <HomeIcon size={20} />
-          <span className="text-[8px] font-bold mt-1">Home</span>
-        </Link>
-        <Link href="/events" className="flex flex-col items-center justify-center w-12 h-12 rounded-full text-muted-foreground hover:text-primary transition-colors">
-          <GridIcon size={20} />
-          <span className="text-[8px] font-bold mt-1">Events</span>
-        </Link>
-        <Link href="/profile" className="flex flex-col items-center justify-center w-14 h-14 -mt-6 bg-primary text-primary-foreground shadow-lg shadow-primary/30 rounded-full transform transition-transform hover:scale-105 active:scale-95">
-          <UserIcon size={22} strokeWidth={2.5} />
-        </Link>
-        <Button variant="ghost" size="icon" className="flex flex-col items-center justify-center w-12 h-12 rounded-full text-muted-foreground">
-          <SearchIcon size={20} />
-          <span className="text-[8px] font-bold mt-1">Search</span>
-        </Button>
-        <Button variant="ghost" size="icon" className="flex flex-col items-center justify-center w-12 h-12 rounded-full text-muted-foreground">
-          <SettingsIcon size={20} />
-          <span className="text-[8px] font-bold mt-1">Settings</span>
-        </Button>
-      </nav>
+        {!profile ? (
+          <Card className="border-none bg-gradient-to-br from-primary/10 to-accent/10 shadow-none rounded-[2rem] p-4">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-xl font-bold text-primary">Incomplete Profile</CardTitle>
+              <CardDescription className="text-sm font-medium">
+                Join our community of {stats.memberCount > 0 ? stats.memberCount : "many"} members to access exclusive events.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button asChild className="w-full rounded-2xl h-12 text-sm font-bold shadow-lg shadow-primary/20 bg-primary hover:bg-primary/90 text-primary-foreground">
+                <Link href="/register">Register Now</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="space-y-6 px-2 md:px-0 pb-12">
+            {/* Profile Sections as app-like lists */}
+            <div className="space-y-3">
+              <h3 className="px-2 text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Personal Details</h3>
+              <div className="bg-card border border-border/50 rounded-[2rem] p-6 shadow-sm">
+                <InfoItem icon={UserIcon} label="Full Name" value={profile.fullName} />
+                <InfoItem icon={MapPinIcon} label="Address" value={profile.address} />
+                <InfoItem icon={PhoneIcon} label="Phone Number" value={profile.phoneNumber} />
+                <InfoItem icon={CalendarIcon} label="Age Group" value={<Badge variant="outline" className="text-[10px] rounded-full">{profile.ageGroup} years</Badge>} />
+              </div>
+            </div>
+
+            <div className="space-y-3 pb-8">
+              <h3 className="px-2 text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Education & Work</h3>
+              <div className="bg-card border border-border/50 rounded-[2rem] p-6 shadow-sm">
+                <InfoItem icon={GraduationCapIcon} label="Education Level" value={profile.educationLevel} />
+                <InfoItem icon={BriefcaseIcon} label="Current Status" value={profile.employmentStatus} />
+                {profile.employmentTitle && (
+                  <InfoItem icon={BriefcaseIcon} label="Job Title" value={profile.employmentTitle} />
+                )}
+                <div className="pt-4 flex items-center justify-center gap-2 text-[10px] font-bold text-muted-foreground/50 uppercase tracking-tighter">
+                  Since {new Date(profile.createdAt).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
