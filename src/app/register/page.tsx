@@ -27,7 +27,7 @@ export default async function RegisterPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <MemberRegistrationForm />
+          <MemberRegistrationForm initialData={{fullName: session.user.name, address: "", phoneNumber: "", ageGroup: "", educationLevel: "", employmentStatus: "", employmentTitle: ""}} />
         </CardContent>
       </Card>
     </main>

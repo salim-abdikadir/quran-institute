@@ -39,7 +39,8 @@ export interface MemberFormProps {
 export function MemberRegistrationForm({ initialData, onSuccess }: MemberFormProps) {
   const router = useRouter();
   const utils = api.useUtils();
-  
+
+
   const form = useForm<MemberFormValues>({
     resolver: zodResolver(memberSchema),
     defaultValues: initialData ?? {
