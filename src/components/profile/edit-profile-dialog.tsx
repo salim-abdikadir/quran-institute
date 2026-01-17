@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { MemberRegistrationForm } from "@/components/forms/member-registration-form";
 import { type MemberFormValues } from "@/lib/validations";
-import { useRouter } from "next/navigation";
 
 interface EditProfileDialogProps {
   initialData: MemberFormValues;
@@ -21,7 +20,6 @@ interface EditProfileDialogProps {
 
 export function EditProfileDialog({ initialData }: EditProfileDialogProps) {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -40,7 +38,7 @@ export function EditProfileDialog({ initialData }: EditProfileDialogProps) {
         <div className="py-4">
           <MemberRegistrationForm 
             initialData={initialData} 
-            onSuccess={() => {setOpen(false); router.refresh();}} 
+            onSuccess={() => {setOpen(false);}} 
           />
         </div>
       </DialogContent>

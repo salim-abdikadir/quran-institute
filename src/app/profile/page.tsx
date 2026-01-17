@@ -12,17 +12,8 @@ import {
   GraduationCapIcon, 
   BriefcaseIcon, 
   CalendarIcon, 
-  LogOutIcon,
-  HomeIcon,
-  SearchIcon,
-  GridIcon,
-  SettingsIcon,
-  ChevronRight
 } from "lucide-react";
-import { headers } from "next/headers";
-import { auth } from "@/server/better-auth";
 import { EditProfileDialog } from "@/components/profile/edit-profile-dialog";
-import { ModeToggle } from "@/components/mode-toggle";
 
 export default async function ProfilePage() {
   const session = await getSession();
@@ -50,62 +41,7 @@ export default async function ProfilePage() {
   );
 
   return (
-    <div className="min-h-screen bg-muted/30 pb-24 md:pb-12">
-      {/* Sticky Top Header - Desktop Only Hidden on Mobile */}
-      <header className="bg-background/80 backdrop-blur-md border-b sticky top-0 z-30 hidden md:block">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            Jimciyat Alquran
-          </Link>
-          <div className="flex items-center gap-4">
-            <ModeToggle />
-            <Button variant="ghost" asChild>
-              <Link href="/events">Events</Link>
-            </Button>
-            <form>
-              <Button 
-                variant="ghost" 
-                size="sm"
-                className="text-destructive hover:text-destructive hover:bg-destructive/10 rounded-full"
-                formAction={async () => {
-                  "use server";
-                  await auth.api.signOut({
-                    headers: await headers(),
-                  });
-                  redirect("/");
-                }}
-              >
-                <LogOutIcon size={16} className="mr-2" />
-                Sign Out
-              </Button>
-            </form>
-          </div>
-        </div>
-      </header>
-
-      {/* Mobile Header Title */}
-      <div className="md:hidden pt-8 pb-4 px-6 flex items-center justify-between">
-        <h1 className="text-2xl font-black tracking-tight">Account</h1>
-        <div className="flex items-center gap-2">
-          <ModeToggle />
-          <form>
-            <Button 
-              variant="ghost" 
-              size="icon"
-              className="text-destructive rounded-full"
-              formAction={async () => {
-                "use server";
-                await auth.api.signOut({
-                  headers: await headers(),
-                });
-                redirect("/");
-              }}
-            >
-              <LogOutIcon size={18} />
-            </Button>
-          </form>
-        </div>
-      </div>
+    
 
       <main className="container mx-auto px-4 md:py-8 lg:px-0">
         <div className="max-w-xl mx-auto space-y-8">
@@ -193,29 +129,5 @@ export default async function ProfilePage() {
           )}
         </div>
       </main>
-
-      {/* Mobile Bottom Navigation Bar */}
-      <nav className="md:hidden fixed bottom-6 left-6 right-6 h-16 bg-background/90 backdrop-blur-xl border border-white/20 shadow-2xl rounded-full z-50 flex items-center justify-around px-2">
-        <Link href="/" className="flex flex-col items-center justify-center w-12 h-12 rounded-full text-muted-foreground hover:text-primary transition-colors">
-          <HomeIcon size={20} />
-          <span className="text-[8px] font-bold mt-1">Home</span>
-        </Link>
-        <Link href="/events" className="flex flex-col items-center justify-center w-12 h-12 rounded-full text-muted-foreground hover:text-primary transition-colors">
-          <GridIcon size={20} />
-          <span className="text-[8px] font-bold mt-1">Events</span>
-        </Link>
-        <Link href="/profile" className="flex flex-col items-center justify-center w-14 h-14 -mt-6 bg-primary text-primary-foreground shadow-lg shadow-primary/30 rounded-full transform transition-transform hover:scale-105 active:scale-95">
-          <UserIcon size={22} strokeWidth={2.5} />
-        </Link>
-        <Button variant="ghost" size="icon" className="flex flex-col items-center justify-center w-12 h-12 rounded-full text-muted-foreground">
-          <SearchIcon size={20} />
-          <span className="text-[8px] font-bold mt-1">Search</span>
-        </Button>
-        <Button variant="ghost" size="icon" className="flex flex-col items-center justify-center w-12 h-12 rounded-full text-muted-foreground">
-          <SettingsIcon size={20} />
-          <span className="text-[8px] font-bold mt-1">Settings</span>
-        </Button>
-      </nav>
-    </div>
   );
 }

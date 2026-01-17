@@ -14,24 +14,6 @@ export default async function EventsPage() {
 
   return (
     <div className="min-h-screen bg-muted/40">
-      <header className="bg-background border-b sticky top-0 z-10">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-primary">Jimciyat Alquran</Link>
-          <div className="flex items-center gap-4">
-            <ModeToggle />
-            {session ? (
-              <Button variant="ghost" asChild>
-                <Link href="/profile">My Profile</Link>
-              </Button>
-            ) : (
-              <Button asChild>
-                <Link href="/auth">Sign In</Link>
-              </Button>
-            )}
-          </div>
-        </div>
-      </header>
-
       <main className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div>

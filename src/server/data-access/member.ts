@@ -2,6 +2,7 @@ import { db } from "@/server/db";
 import type { MemberFormValues } from "@/lib/validations";
 
 export async function getMemberProfileByUserId(userId: string) {
+  console.log(userId);
   return await db.memberProfile.findUnique({
     where: { userId },
   });
