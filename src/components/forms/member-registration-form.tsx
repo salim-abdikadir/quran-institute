@@ -33,11 +33,10 @@ import { api } from "@/trpc/react";
 
 export interface MemberFormProps {
   initialData?: MemberFormValues;
-  mode?: "register" | "update";
   onSuccess?: () => void;
 }
 
-export function MemberRegistrationForm({ initialData, mode = "register", onSuccess }: MemberFormProps) {
+export function MemberRegistrationForm({ initialData, onSuccess }: MemberFormProps) {
   const router = useRouter();
   const utils = api.useUtils();
   
@@ -59,7 +58,7 @@ export function MemberRegistrationForm({ initialData, mode = "register", onSucce
       toast.success("Successfully registered as a member!");
       router.refresh();
       if (onSuccess) onSuccess();
-      else router.push("/profile");
+      else router.push("/events");
     },
     onError: (error) => {
       toast.error(error.message || "Failed to register. Please try again.");
@@ -81,7 +80,7 @@ export function MemberRegistrationForm({ initialData, mode = "register", onSucce
   const isPending = isRegistering || isUpdating;
 
   function onSubmit(values: MemberFormValues) {
-    if (mode === "update") {
+    if (initialData) {
       update(values);
     } else {
       register(values);

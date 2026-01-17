@@ -1,52 +1,35 @@
 import Link from "next/link";
 import { getSession } from "@/server/better-auth/server";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, Users, Calendar, UserIcon } from "lucide-react";
+import { ArrowRight, BookOpen, Users, Calendar } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
-import { DashboardNav } from "@/components/navigation/dashboard-nav";
 import type React from "react";
 
 export default async function Home() {
   const session = await getSession();
 
   return (
-    <div className="min-h-screen bg-background text-foreground transition-colors duration-300 pb-16 md:pb-0">
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       {/* Navbar */}
       <nav className="fixed top-0 w-full z-50 border-b border-border bg-background/50 backdrop-blur-xl">
-        <div className="container mx-auto px-6 h-16 md:h-20 flex items-center justify-between">
-          <Link href="/" className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+        <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+          <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             Jimciyat Alquran
           </Link>
-          
-          {/* Mobile Profile Icon (Top Right) */}
-          <div className="flex items-center gap-2 md:hidden">
-            <ModeToggle />
-            {session && (
-              <Link href="/profile" className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                <UserIcon size={16} />
-              </Link>
-            )}
-          </div>
-
           <div className="hidden md:flex items-center gap-8 text-sm font-medium">
-            <Link href="/profile/events" className="text-muted-foreground hover:text-foreground transition-colors">Events</Link>
+            <Link href="/events" className="text-muted-foreground hover:text-foreground transition-colors">Events</Link>
             <Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors">About Us</Link>
             <div className="flex items-center gap-4">
               <ModeToggle />
               {session ? (
                 <div className="flex items-center gap-4">
-                  <Link href="/profile" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-all group">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                      <UserIcon size={16} />
-                    </div>
-                    <span>My Profile</span>
-                  </Link>
-                  <Button asChild variant="outline" className="border-primary/20 hover:bg-primary/5 rounded-full px-6">
+                  <Link href="/profile" className="text-muted-foreground hover:text-foreground transition-colors">My Profile</Link>
+                  <Button asChild variant="outline" className="border-primary/20 hover:bg-primary/5">
                     <Link href="/register">Membership</Link>
                   </Button>
                 </div>
               ) : (
-                <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 rounded-full px-8">
+                <Button asChild className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20">
                   <Link href="/auth">Join Now</Link>
                 </Button>
               )}
@@ -125,7 +108,6 @@ export default async function Home() {
           <p>© 2026 Jimciyat Alquran. All rights reserved.</p>
         </div>
       </footer>
-      <DashboardNav />
     </div>
   );
 }
